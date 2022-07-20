@@ -27,7 +27,6 @@ env\scripts\activate
  
 ## To run your project
 ```
- cd discuso
  python manage.py runserver
 ```
 
