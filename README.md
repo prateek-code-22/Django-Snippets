@@ -75,6 +75,21 @@ def post_request(request):
     return Response({'status':200 , 'payload':data, 'message':'data sent'})
 ```
 
+## Save json data to model using POST
+```
+@api_view(['POST'])
+def post_request(request):
+    data = request.data
+    serializer = StudentSerializers(data = request.data)
+
+    if not serializer.is_valid():
+        return Response({'status':403,'message':'Something went wrong!', 'errors':serializer.errors})
+    
+    serializer.save()
+
+    return Response({'status':200 , 'payload':serializer.data, 'message':'data sent'})
+```
+
 
 ## Serializer
 ```
@@ -92,5 +107,18 @@ class StudentSerializers(serializers.ModelSerializer):
 ```
 
 
-##
+## User validation 
+```
+def validate(self,data):
+        
+        if data['age'] < 18:
+            raise serializers.ValidationError({'error':"age cannot be less than 18"})
+        
+        if not data['name'].isalpha():
+            raise serializers.ValidationError({'error': 'name cannot contain digits'})
+
+        return data
+```
+
+
 
